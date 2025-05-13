@@ -37,32 +37,7 @@ public class SkillDAO {
         return skills;
     }
 
-    /**
-     * Get skills by category
-     * @param category Category to filter by
-     * @return List of skills in the specified category
-     */
-    public List<Skill> getSkillsByCategory(String category) {
-        List<Skill> skills = new ArrayList<>();
-        String sql = "SELECT * FROM skills WHERE category = ? ORDER BY skill_name";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, category);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Skill skill = extractSkillFromResultSet(rs);
-                    skills.add(skill);
-                }
-            }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Error getting skills by category", e);
-        }
-
-        return skills;
-    }
 
     /**
      * Get a skill by ID
@@ -277,6 +252,40 @@ public class SkillDAO {
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Error searching skills", e);
+        }
+
+        return skills;
+    }
+
+    /**
+     * Get skills by category
+     * @param category Category to filter by
+     * @return List of skills in the specified category
+     */
+    public List<Skill> getSkillsByCategory(String category) {
+        List<Skill> skills = new ArrayList<>();
+        String sql = "SELECT s.*, " +
+                    "(SELECT COUNT(*) FROM user_offered_skills WHERE skill_id = s.skill_id) AS offer_count, " +
+                    "(SELECT COUNT(*) FROM user_wanted_skills WHERE skill_id = s.skill_id) AS want_count " +
+                    "FROM skills s " +
+                    "WHERE s.category = ? " +
+                    "ORDER BY s.skill_name";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, category);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Skill skill = extractSkillFromResultSet(rs);
+                    skill.setOfferCount(rs.getInt("offer_count"));
+                    skill.setWantCount(rs.getInt("want_count"));
+                    skills.add(skill);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error getting skills by category", e);
         }
 
         return skills;

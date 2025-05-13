@@ -11,7 +11,7 @@
         <div class="skills-hero-content">
             <h1>Discover Skills</h1>
             <p>Browse, search, and filter skills from our community</p>
-            
+
             <form action="${pageContext.request.contextPath}/skills" method="get" class="search-form">
                 <div class="search-input-container">
                     <input type="text" name="search" placeholder="Search skills..." value="${searchTerm}" class="search-input">
@@ -41,7 +41,7 @@
                         </c:forEach>
                     </ul>
                 </div>
-                
+
                 <div class="sidebar-section">
                     <h3>Popular Skills</h3>
                     <ul class="popular-skills-list">
@@ -55,7 +55,7 @@
                         </c:forEach>
                     </ul>
                 </div>
-                
+
                 <div class="sidebar-section">
                     <h3>Add Your Skill</h3>
                     <p>Can't find the skill you're looking for?</p>
@@ -64,7 +64,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="skills-main">
                 <div class="skills-header">
                     <div class="skills-count">
@@ -83,7 +83,7 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    
+
                     <div class="skills-sort">
                         <label for="sortBy">Sort by:</label>
                         <select id="sortBy" class="sort-select">
@@ -97,7 +97,7 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <c:choose>
                     <c:when test="${empty skills}">
                         <div class="empty-state">
@@ -144,7 +144,7 @@
                                 </div>
                             </c:forEach>
                         </div>
-                        
+
                         <!-- Pagination -->
                         <c:if test="${totalPages > 1 && empty searchTerm && empty selectedCategory}">
                             <div class="pagination">
@@ -153,7 +153,7 @@
                                         <i class="fas fa-chevron-left"></i> Previous
                                     </a>
                                 </c:if>
-                                
+
                                 <c:forEach begin="1" end="${totalPages}" var="i">
                                     <c:choose>
                                         <c:when test="${i == currentPage}">
@@ -164,7 +164,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </c:forEach>
-                                
+
                                 <c:if test="${currentPage < totalPages}">
                                     <a href="${pageContext.request.contextPath}/skills?page=${currentPage + 1}${not empty sortBy ? '&sortBy='.concat(sortBy) : ''}" class="pagination-item">
                                         Next <i class="fas fa-chevron-right"></i>
@@ -183,13 +183,16 @@
     // Handle sort change
     document.getElementById('sortBy').addEventListener('change', function() {
         const sortBy = this.value;
-        const currentUrl = new URL(window.location.href);
-        
+
+        // Get current URL and parameters
+        const currentUrl = window.location.href;
+        const url = new URL(currentUrl);
+
         // Update or add sortBy parameter
-        currentUrl.searchParams.set('sortBy', sortBy);
-        
+        url.searchParams.set('sortBy', sortBy);
+
         // Navigate to the new URL
-        window.location.href = currentUrl.toString();
+        window.location.href = url.toString();
     });
 </script>
 
