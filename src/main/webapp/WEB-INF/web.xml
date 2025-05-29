@@ -81,10 +81,106 @@
         <url-pattern>/add-skill</url-pattern>
     </servlet-mapping>
 
+    <!-- Requests Servlet -->
+    <servlet>
+        <servlet-name>RequestsServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.RequestsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RequestsServlet</servlet-name>
+        <url-pattern>/requests</url-pattern>
+    </servlet-mapping>
+
+    <!-- Send Request Servlet -->
+    <servlet>
+        <servlet-name>SendRequestServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.SendRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendRequestServlet</servlet-name>
+        <url-pattern>/send-request</url-pattern>
+    </servlet-mapping>
+
+    <!-- Manage Request Servlet -->
+    <servlet>
+        <servlet-name>ManageRequestServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.ManageRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManageRequestServlet</servlet-name>
+        <url-pattern>/manage-request</url-pattern>
+    </servlet-mapping>
+
+    <!-- Messages Servlet -->
+    <servlet>
+        <servlet-name>MessagesServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.MessagesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MessagesServlet</servlet-name>
+        <url-pattern>/messages</url-pattern>
+    </servlet-mapping>
+
+    <!-- Send Message Servlet -->
+    <servlet>
+        <servlet-name>SendMessageServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.SendMessageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendMessageServlet</servlet-name>
+        <url-pattern>/send-message</url-pattern>
+    </servlet-mapping>
+
+    <!-- Rating Servlet -->
+    <servlet>
+        <servlet-name>RatingServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.RatingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RatingServlet</servlet-name>
+        <url-pattern>/ratings</url-pattern>
+    </servlet-mapping>
+
+    <!-- Session Servlet -->
+    <servlet>
+        <servlet-name>SessionServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.SessionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SessionServlet</servlet-name>
+        <url-pattern>/sessions</url-pattern>
+    </servlet-mapping>
+
+    <!-- Leaderboard Servlet -->
+    <servlet>
+        <servlet-name>LeaderboardServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.LeaderboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeaderboardServlet</servlet-name>
+        <url-pattern>/leaderboard</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin Servlet -->
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>com.skillswaphub.servlet.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+
     <!-- Authentication Filter -->
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>com.skillswaphub.filter.AuthFilter</filter-class>
+    </filter>
+
+    <!-- Session Timeout Filter -->
+    <filter>
+        <filter-name>SessionTimeoutFilter</filter-name>
+        <filter-class>com.skillswaphub.filter.SessionTimeoutFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
@@ -97,6 +193,44 @@
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/add-skill</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/requests</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/send-request</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/manage-request</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/messages</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/send-message</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/ratings</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/sessions</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/admin</url-pattern>
+    </filter-mapping>
+
+    <!-- Session Timeout Filter Mapping -->
+    <filter-mapping>
+        <filter-name>SessionTimeoutFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <!-- Session Configuration -->

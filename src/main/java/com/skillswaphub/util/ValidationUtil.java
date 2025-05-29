@@ -2,6 +2,8 @@ package com.skillswaphub.util;
 
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Utility class for input validation
  */
@@ -14,10 +16,10 @@ public class ValidationUtil {
     private static final String URL_PATTERN = "^(https?|ftp)://[^\\s/$.?#].[^\\s]*$";
 
     // Compiled patterns for better performance
-    private static final Pattern usernamePattern = Pattern.compile(USERNAME_PATTERN);
-    private static final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
-    private static final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
-    private static final Pattern urlPattern = Pattern.compile(URL_PATTERN);
+    private static final Pattern USERNAME_PATTERN_COMPILED = Pattern.compile(USERNAME_PATTERN);
+    private static final Pattern EMAIL_PATTERN_COMPILED = Pattern.compile(EMAIL_PATTERN);
+    private static final Pattern PASSWORD_PATTERN_COMPILED = Pattern.compile(PASSWORD_PATTERN);
+    private static final Pattern URL_PATTERN_COMPILED = Pattern.compile(URL_PATTERN);
 
     /**
      * Validate username format
@@ -28,7 +30,7 @@ public class ValidationUtil {
         if (username == null) {
             return false;
         }
-        return usernamePattern.matcher(username).matches();
+        return USERNAME_PATTERN_COMPILED.matcher(username).matches();
     }
 
     /**
@@ -40,7 +42,7 @@ public class ValidationUtil {
         if (email == null) {
             return false;
         }
-        return emailPattern.matcher(email).matches();
+        return EMAIL_PATTERN_COMPILED.matcher(email).matches();
     }
 
     /**
@@ -52,7 +54,7 @@ public class ValidationUtil {
         if (password == null) {
             return false;
         }
-        return passwordPattern.matcher(password).matches();
+        return PASSWORD_PATTERN_COMPILED.matcher(password).matches();
     }
 
     /**
@@ -64,7 +66,7 @@ public class ValidationUtil {
         if (url == null) {
             return false;
         }
-        return urlPattern.matcher(url).matches();
+        return URL_PATTERN_COMPILED.matcher(url).matches();
     }
 
     /**
@@ -79,6 +81,7 @@ public class ValidationUtil {
 
         // Replace potentially dangerous characters
         String sanitized = input
+                .replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
@@ -86,5 +89,55 @@ public class ValidationUtil {
                 .replace("/", "&#x2F;");
 
         return sanitized;
+    }
+
+    /**
+     * Validate and sanitize a required field
+     * @param value Field value
+     * @param fieldName Field name for error message
+     * @param request HTTP request to set error attribute
+     * @return Sanitized value if valid, null if invalid
+     */
+    public static String validateRequiredField(String value, String fieldName, HttpServletRequest request) {
+        if (value == null || value.trim().isEmpty()) {
+            request.setAttribute(fieldName + "Error", fieldName + " is required");
+            return null;
+        }
+
+        return sanitizeInput(value.trim());
+    }
+
+    /**
+     * Validate and sanitize an optional field
+     * @param value Field value
+     * @return Sanitized value if present, empty string if null or empty
+     */
+    public static String validateOptionalField(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return "";
+        }
+
+        return sanitizeInput(value.trim());
+    }
+
+    /**
+     * Validate integer parameter
+     * @param value String value to parse
+     * @param fieldName Field name for error message
+     * @param request HTTP request to set error attribute
+     * @return Parsed integer if valid, null if invalid
+     */
+    public static Integer validateIntParameter(String value, String fieldName, HttpServletRequest request) {
+        if (value == null || value.trim().isEmpty()) {
+            request.setAttribute(fieldName + "Error", fieldName + " is required");
+            return null;
+        }
+
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            request.setAttribute(fieldName + "Error", fieldName + " must be a valid number");
+            return null;
+        }
     }
 }

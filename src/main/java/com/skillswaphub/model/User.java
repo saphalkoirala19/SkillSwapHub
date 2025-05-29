@@ -16,17 +16,22 @@ public class User {
     private String lastName;
     private String bio;
     private String profileImage;
+    private String location;
+    private double latitude;
+    private double longitude;
+    private boolean isAdmin;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private List<Skill> offeredSkills;
     private List<Skill> wantedSkills;
-    
+    private double averageRating;
+
     // Default constructor
     public User() {
         this.offeredSkills = new ArrayList<>();
         this.wantedSkills = new ArrayList<>();
     }
-    
+
     // Constructor with basic fields
     public User(String username, String email, String password, String firstName, String lastName) {
         this.username = username;
@@ -37,9 +42,9 @@ public class User {
         this.offeredSkills = new ArrayList<>();
         this.wantedSkills = new ArrayList<>();
     }
-    
+
     // Full constructor
-    public User(int userId, String username, String email, String password, String firstName, 
+    public User(int userId, String username, String email, String password, String firstName,
                 String lastName, String bio, String profileImage, Timestamp createdAt, Timestamp updatedAt) {
         this.userId = userId;
         this.username = username;
@@ -54,117 +59,157 @@ public class User {
         this.offeredSkills = new ArrayList<>();
         this.wantedSkills = new ArrayList<>();
     }
-    
+
     // Getters and Setters
     public int getUserId() {
         return userId;
     }
-    
+
     public void setUserId(int userId) {
         this.userId = userId;
     }
-    
+
     public String getUsername() {
         return username;
     }
-    
+
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getPassword() {
         return password;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
-    
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
-    
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
     public String getBio() {
         return bio;
     }
-    
+
     public void setBio(String bio) {
         this.bio = bio;
     }
-    
+
     public String getProfileImage() {
         return profileImage;
     }
-    
+
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
-    
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
-    
+
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-    
+
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
-    
+
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+
     public List<Skill> getOfferedSkills() {
         return offeredSkills;
     }
-    
+
     public void setOfferedSkills(List<Skill> offeredSkills) {
         this.offeredSkills = offeredSkills;
     }
-    
+
     public List<Skill> getWantedSkills() {
         return wantedSkills;
     }
-    
+
     public void setWantedSkills(List<Skill> wantedSkills) {
         this.wantedSkills = wantedSkills;
     }
-    
+
     public void addOfferedSkill(Skill skill) {
         this.offeredSkills.add(skill);
     }
-    
+
     public void addWantedSkill(Skill skill) {
         this.wantedSkills.add(skill);
     }
-    
+
     // Helper methods
     public String getFullName() {
         return firstName + " " + lastName;
     }
-    
+
     @Override
     public String toString() {
         return "User{" +

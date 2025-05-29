@@ -38,7 +38,7 @@
                         </div>
                     </c:if>
                 </div>
-                
+
                 <div class="skill-actions">
                     <c:choose>
                         <c:when test="${empty sessionScope.user}">
@@ -67,7 +67,7 @@
                                         </button>
                                     </c:otherwise>
                                 </c:choose>
-                                
+
                                 <c:choose>
                                     <c:when test="${userWantsSkill}">
                                         <form action="${pageContext.request.contextPath}/skill/${skill.skillId}" method="post">
@@ -84,11 +84,20 @@
                                         </button>
                                     </c:otherwise>
                                 </c:choose>
+
+                                <c:if test="${not empty offeringUsers && not empty sessionScope.userId}">
+                                    <div class="skill-swap-action">
+                                        <p>Want to learn this skill? Find someone to swap with:</p>
+                                        <a href="#offering-users" class="btn btn-accent">
+                                            <i class="fas fa-exchange-alt"></i> Find Swap Partners
+                                        </a>
+                                    </div>
+                                </c:if>
                             </div>
                         </c:otherwise>
                     </c:choose>
                 </div>
-                
+
                 <div class="skill-tabs">
                     <ul class="tabs">
                         <li class="tab active" data-tab="offering-users">
@@ -98,7 +107,7 @@
                             <i class="fas fa-search"></i> People Wanting (${skill.wantCount})
                         </li>
                     </ul>
-                    
+
                     <div class="tab-content">
                         <div id="offering-users" class="tab-pane active">
                             <c:choose>
@@ -137,6 +146,14 @@
                                                     <a href="${pageContext.request.contextPath}/profile/${user.userId}" class="btn btn-outline btn-sm">
                                                         View Profile
                                                     </a>
+                                                    <c:if test="${not empty sessionScope.userId && sessionScope.userId ne user.userId}">
+                                                        <a href="${pageContext.request.contextPath}/send-request?receiverId=${user.userId}&skillId=${skill.skillId}" class="btn btn-primary btn-sm">
+                                                            <i class="fas fa-exchange-alt"></i> Request Swap
+                                                        </a>
+                                                        <a href="${pageContext.request.contextPath}/send-message?userId=${user.userId}" class="btn btn-outline btn-sm">
+                                                            <i class="fas fa-comments"></i> Message
+                                                        </a>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </c:forEach>
@@ -144,7 +161,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        
+
                         <div id="wanting-users" class="tab-pane">
                             <c:choose>
                                 <c:when test="${empty wantingUsers}">
@@ -182,6 +199,14 @@
                                                     <a href="${pageContext.request.contextPath}/profile/${user.userId}" class="btn btn-outline btn-sm">
                                                         View Profile
                                                     </a>
+                                                    <c:if test="${not empty sessionScope.userId && sessionScope.userId ne user.userId}">
+                                                        <a href="${pageContext.request.contextPath}/send-request?receiverId=${user.userId}&skillId=${skill.skillId}" class="btn btn-primary btn-sm">
+                                                            <i class="fas fa-exchange-alt"></i> Request Swap
+                                                        </a>
+                                                        <a href="${pageContext.request.contextPath}/send-message?userId=${user.userId}" class="btn btn-outline btn-sm">
+                                                            <i class="fas fa-comments"></i> Message
+                                                        </a>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </c:forEach>
@@ -192,7 +217,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="skill-detail-sidebar">
                 <div class="sidebar-section">
                     <h3>Related Skills</h3>
@@ -213,7 +238,7 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-                
+
                 <div class="sidebar-section">
                     <h3>Add Your Skill</h3>
                     <p>Can't find the skill you're looking for?</p>
@@ -237,7 +262,7 @@
             <form action="${pageContext.request.contextPath}/skill/${skill.skillId}" method="post">
                 <input type="hidden" name="skillId" value="${skill.skillId}">
                 <input type="hidden" name="action" value="addOffer">
-                
+
                 <div class="form-group">
                     <label for="proficiencyLevel">Your Proficiency Level</label>
                     <select id="proficiencyLevel" name="proficiencyLevel" required>
@@ -248,12 +273,12 @@
                         <option value="Expert">Expert</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="offerDescription">Description (Optional)</label>
                     <textarea id="offerDescription" name="description" rows="3" placeholder="Describe your experience with this skill"></textarea>
                 </div>
-                
+
                 <div class="modal-actions">
                     <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Add to My Offered Skills</button>
@@ -274,7 +299,7 @@
             <form action="${pageContext.request.contextPath}/skill/${skill.skillId}" method="post">
                 <input type="hidden" name="skillId" value="${skill.skillId}">
                 <input type="hidden" name="action" value="addWant">
-                
+
                 <div class="form-group">
                     <label for="currentLevel">Your Current Level</label>
                     <select id="currentLevel" name="currentLevel" required>
@@ -285,12 +310,12 @@
                         <option value="Advanced">Advanced</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="wantDescription">Description (Optional)</label>
                     <textarea id="wantDescription" name="description" rows="3" placeholder="Describe what you want to learn about this skill"></textarea>
                 </div>
-                
+
                 <div class="modal-actions">
                     <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
                     <button type="submit" class="btn btn-secondary">Add to My Wanted Skills</button>
@@ -305,55 +330,55 @@
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', function() {
             const tabId = this.getAttribute('data-tab');
-            
+
             // Remove active class from all tabs and tab panes
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-            
+
             // Add active class to current tab and tab pane
             this.classList.add('active');
             document.getElementById(tabId).classList.add('active');
         });
     });
-    
+
     // Initialize offer skill modal
     const offerSkillModal = document.getElementById('offer-skill-modal');
     const offerSkillBtn = document.getElementById('offerSkillBtn');
     const offerSkillBtnEmpty = document.getElementById('offerSkillBtnEmpty');
-    
+
     if (offerSkillBtn) {
         offerSkillBtn.addEventListener('click', function() {
             offerSkillModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
     }
-    
+
     if (offerSkillBtnEmpty) {
         offerSkillBtnEmpty.addEventListener('click', function() {
             offerSkillModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
     }
-    
+
     // Initialize want skill modal
     const wantSkillModal = document.getElementById('want-skill-modal');
     const wantSkillBtn = document.getElementById('wantSkillBtn');
     const wantSkillBtnEmpty = document.getElementById('wantSkillBtnEmpty');
-    
+
     if (wantSkillBtn) {
         wantSkillBtn.addEventListener('click', function() {
             wantSkillModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
     }
-    
+
     if (wantSkillBtnEmpty) {
         wantSkillBtnEmpty.addEventListener('click', function() {
             wantSkillModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
     }
-    
+
     // Close modals
     document.querySelectorAll('.close-modal, .cancel-modal').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -362,7 +387,7 @@
             document.body.style.overflow = '';
         });
     });
-    
+
     // Close modal when clicking outside
     window.addEventListener('click', function(event) {
         if (event.target === offerSkillModal) {

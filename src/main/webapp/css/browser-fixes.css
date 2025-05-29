@@ -1,0 +1,160 @@
+/* Cross-browser compatibility fixes */
+
+/* IE10+ specific styles */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    /* Fix for flexbox in IE */
+    .flex-container, .user-card, .skill-card, .request-card {
+        display: -ms-flexbox;
+        -ms-flex-wrap: wrap;
+    }
+    
+    /* Fix for CSS Grid in IE */
+    .grid-container {
+        display: -ms-grid;
+        -ms-grid-columns: 1fr 1fr 1fr;
+    }
+    
+    /* Fix for CSS variables in IE */
+    .btn-primary {
+        background-color: #4a6fa5;
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+    
+    .btn-accent {
+        background-color: #28a745;
+    }
+}
+
+/* Edge specific styles */
+@supports (-ms-ime-align:auto) {
+    /* Fix for flexbox in Edge */
+    .flex-container, .user-card, .skill-card, .request-card {
+        display: -webkit-flex;
+        -webkit-flex-wrap: wrap;
+    }
+}
+
+/* Safari specific styles */
+@supports (not (display: grid)) and (display: -webkit-box) {
+    /* Fix for Safari flexbox issues */
+    .flex-container, .user-card, .skill-card, .request-card {
+        display: -webkit-box;
+        -webkit-box-orient: horizontal;
+        -webkit-box-pack: justify;
+    }
+}
+
+/* Firefox specific styles */
+@-moz-document url-prefix() {
+    /* Fix for Firefox form elements */
+    select {
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: '';
+    }
+}
+
+/* General cross-browser fixes */
+
+/* Fix for box-sizing across browsers */
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Fix for transitions across browsers */
+.btn, .card, .nav-link, .form-control {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+/* Fix for border-radius across browsers */
+.btn, .card, .form-control, .alert, .badge {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+/* Fix for box-shadow across browsers */
+.card, .btn:hover, .form-control:focus {
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix for opacity across browsers */
+.modal-backdrop, .overlay {
+    -webkit-opacity: 0.5;
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+
+/* Fix for transform across browsers */
+.rotate, .flip, .scale {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+/* Fix for placeholder styling across browsers */
+::-webkit-input-placeholder {
+    color: #999;
+    opacity: 1;
+}
+:-moz-placeholder {
+    color: #999;
+    opacity: 1;
+}
+::-moz-placeholder {
+    color: #999;
+    opacity: 1;
+}
+:-ms-input-placeholder {
+    color: #999;
+    opacity: 1;
+}
+
+/* Fix for autofill styling across browsers */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: #333 !important;
+}
+
+/* Fix for appearance across browsers */
+input[type="search"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Fix for outline across browsers */
+a:focus, button:focus, input:focus, textarea:focus, select:focus {
+    outline: none;
+}
+
+/* IE-specific class for targeting */
+.ie-browser .flex-container {
+    display: block;
+}
+.ie-browser .flex-container > * {
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Fix for sticky positioning */
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}

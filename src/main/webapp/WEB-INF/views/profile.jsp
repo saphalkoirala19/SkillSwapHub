@@ -27,14 +27,23 @@
                 <p class="username">@${user.username}</p>
                 <p class="bio">${user.bio}</p>
                 <div class="profile-actions">
-                    <a href="${pageContext.request.contextPath}/profile?action=edit" class="btn btn-outline">
-                        <i class="fas fa-edit"></i> Edit Profile
-                    </a>
+                    <c:choose>
+                        <c:when test="${sessionScope.userId eq user.userId}">
+                            <a href="${pageContext.request.contextPath}/profile?action=edit" class="btn btn-outline">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/send-message?userId=${user.userId}" class="btn btn-primary">
+                                <i class="fas fa-comments"></i> Send Message
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="profile-content">
         <div class="profile-tabs">
             <ul class="tabs">
@@ -46,7 +55,7 @@
                 </li>
             </ul>
         </div>
-        
+
         <div class="tab-content">
             <!-- Offered Skills Tab -->
             <div id="offered-skills" class="tab-pane active">
@@ -56,7 +65,7 @@
                         <i class="fas fa-plus"></i> Add Skill
                     </button>
                 </div>
-                
+
                 <c:choose>
                     <c:when test="${empty user.offeredSkills}">
                         <div class="empty-state">
@@ -97,7 +106,7 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
-                
+
                 <!-- Add Offered Skill Modal -->
                 <div id="add-offered-skill-modal" class="modal">
                     <div class="modal-content">
@@ -108,7 +117,7 @@
                         <div class="modal-body">
                             <form action="${pageContext.request.contextPath}/profile" method="post">
                                 <input type="hidden" name="action" value="addOfferedSkill">
-                                
+
                                 <div class="form-group">
                                     <label for="offeredSkillId">Skill</label>
                                     <select id="offeredSkillId" name="skillId" required>
@@ -124,7 +133,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="offeredProficiencyLevel">Proficiency Level</label>
                                     <select id="offeredProficiencyLevel" name="proficiencyLevel" required>
@@ -135,12 +144,12 @@
                                         <option value="Expert">Expert</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="offeredDescription">Description</label>
                                     <textarea id="offeredDescription" name="description" rows="3" placeholder="Describe your experience with this skill"></textarea>
                                 </div>
-                                
+
                                 <div class="modal-actions">
                                     <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
                                     <button type="submit" class="btn btn-primary">Add Skill</button>
@@ -150,7 +159,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Wanted Skills Tab -->
             <div id="wanted-skills" class="tab-pane">
                 <div class="skills-header">
@@ -159,7 +168,7 @@
                         <i class="fas fa-plus"></i> Add Skill
                     </button>
                 </div>
-                
+
                 <c:choose>
                     <c:when test="${empty user.wantedSkills}">
                         <div class="empty-state">
@@ -200,7 +209,7 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
-                
+
                 <!-- Add Wanted Skill Modal -->
                 <div id="add-wanted-skill-modal" class="modal">
                     <div class="modal-content">
@@ -211,7 +220,7 @@
                         <div class="modal-body">
                             <form action="${pageContext.request.contextPath}/profile" method="post">
                                 <input type="hidden" name="action" value="addWantedSkill">
-                                
+
                                 <div class="form-group">
                                     <label for="wantedSkillId">Skill</label>
                                     <select id="wantedSkillId" name="skillId" required>
@@ -227,7 +236,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="wantedCurrentLevel">Current Level</label>
                                     <select id="wantedCurrentLevel" name="currentLevel" required>
@@ -238,12 +247,12 @@
                                         <option value="Advanced">Advanced</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="wantedDescription">Description</label>
                                     <textarea id="wantedDescription" name="description" rows="3" placeholder="Describe what you want to learn about this skill"></textarea>
                                 </div>
-                                
+
                                 <div class="modal-actions">
                                     <button type="button" class="btn btn-outline cancel-modal">Cancel</button>
                                     <button type="submit" class="btn btn-primary">Add Skill</button>
